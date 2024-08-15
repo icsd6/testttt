@@ -34,10 +34,10 @@ def create_fake_player():
         print(f"Eroare la crearea socketului: {e}")
         return
     
-    # Conectare la server (simulare)
-    connection_packet = b"\xFF\xFF\xFF\xFFconnect_test\n"  # Folosește un pachet simplificat
+    # Pachet de test simplificat
+    test_packet = b"\xFF\xFF\xFF\xFFinfo\n"  # Pachet pentru a cere informații de la server
     print(f"Încercare de conectare la server...")
-    send_packet(sock, connection_packet)
+    send_packet(sock, test_packet)
     
     # Așteptare și afișare răspuns de la server
     receive_response(sock)
@@ -45,7 +45,7 @@ def create_fake_player():
     # Menținerea conexiunii cu serverul
     try:
         while True:
-            # Trimitere pachet "keep-alive"
+            # Pachet "keep-alive" simplificat
             keep_alive_packet = b"\xFF\xFF\xFF\xFFkeepalive\n"
             send_packet(sock, keep_alive_packet)
             
