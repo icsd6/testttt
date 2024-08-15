@@ -3,7 +3,7 @@ import time
 
 # Detalii server
 SERVER_IP = '135.125.166.224'  # Adresa IP a serverului tău
-SERVER_PORT = 27015            # Portul serverului tău
+SERVER_PORT =             # Portul serverului tău
 
 def send_packet(sock, data):
     """Funcție pentru a trimite pachete către server și a gestiona erorile."""
