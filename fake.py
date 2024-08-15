@@ -3,7 +3,7 @@ import time
 
 # Detalii server
 SERVER_IP = '135.125.166.224'  # Adresa IP a serverului tău
-SERVER_PORT = 27015       # Portul serverului tău
+SERVER_PORT = 27015            # Portul serverului tău
 
 def send_packet(sock, data):
     """Funcție pentru a trimite pachete către server și a gestiona erorile."""
@@ -17,7 +17,7 @@ def receive_response(sock):
     """Funcție pentru a primi și afișa răspunsuri de la server."""
     try:
         sock.settimeout(5)  # Setează un timeout pentru așteptarea răspunsului
-        response, addr = sock.recvfrom(1024)  # Așteaptă un răspuns de la server
+        response, addr = sock.recvfrom(4096)  # Așteaptă un răspuns de la server
         print(f"Răspuns primit de la {addr}: {response.decode(errors='ignore')}")
     except socket.timeout:
         print("Nu a fost primit niciun răspuns de la server.")
@@ -35,12 +35,9 @@ def create_fake_player():
         return
     
     # Conectare la server (simulare)
-    player_name = "FakePlayer_" + str(int(time.time()) % 1000)
-    connection_packet = f"\xFF\xFF\xFF\xFFconnect {player_name}\n"
-    
-    # Trimitere pachet de conectare
-    print(f"Încercare de conectare a jucătorului {player_name} la server...")
-    send_packet(sock, connection_packet.encode())
+    connection_packet = b"\xFF\xFF\xFF\xFFconnect_test\n"  # Folosește un pachet simplificat
+    print(f"Încercare de conectare la server...")
+    send_packet(sock, connection_packet)
     
     # Așteptare și afișare răspuns de la server
     receive_response(sock)
@@ -49,8 +46,8 @@ def create_fake_player():
     try:
         while True:
             # Trimitere pachet "keep-alive"
-            keep_alive_packet = f"\xFF\xFF\xFF\xFFkeepalive {player_name}\n"
-            send_packet(sock, keep_alive_packet.encode())
+            keep_alive_packet = b"\xFF\xFF\xFF\xFFkeepalive\n"
+            send_packet(sock, keep_alive_packet)
             
             # Așteptare și afișare răspuns de la server
             receive_response(sock)
