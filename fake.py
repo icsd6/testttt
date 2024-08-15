@@ -3,13 +3,12 @@ import time
 
 # Detalii server
 SERVER_IP = '135.125.166.224'  # Adresa IP a serverului tău
-SERVER_PORT =             # Portul serverului tău
 
 def send_packet(sock, data):
     """Funcție pentru a trimite pachete către server și a gestiona erorile."""
     try:
-        sock.sendto(data, (SERVER_IP, SERVER_PORT))
-        print(f"Pachet trimis către {SERVER_IP}:{SERVER_PORT}")
+        sock.sendto(data, (SERVER_IP))
+        print(f"Pachet trimis către {SERVER_IP}")
     except Exception as e:
         print(f"Eroare la trimiterea pachetului: {e}")
 
