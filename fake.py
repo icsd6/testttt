@@ -1,14 +1,14 @@
 import socket
-import time
 
 # Detalii server
-SERVER_IP = '135.125.166.224'  # Adresa IP a serverului tău
+SERVER_IP = 'furien.devilz.ro'  # Adresa IP a serverului tău
+SERVER_PORT = 27015            # Portul serverului tău
 
 def send_packet(sock, data):
     """Funcție pentru a trimite pachete către server și a gestiona erorile."""
     try:
-        sock.sendto(data, (SERVER_IP))
-        print(f"Pachet trimis către {SERVER_IP}")
+        sock.sendto(data, (SERVER_IP, SERVER_PORT))
+        print(f"Pachet trimis către {SERVER_IP}:{SERVER_PORT}")
     except Exception as e:
         print(f"Eroare la trimiterea pachetului: {e}")
 
@@ -33,36 +33,20 @@ def create_fake_player():
         print(f"Eroare la crearea socketului: {e}")
         return
     
-    # Pachet de test simplificat
-    test_packet = b"\xFF\xFF\xFF\xFFinfo\n"  # Pachet pentru a cere informații de la server
-    print(f"Încercare de conectare la server...")
-    send_packet(sock, test_packet)
+    # Pachet standard pentru solicitarea informațiilor serverului
+    info_request_packet = b"\xFF\xFF\xFF\xFFinfo\n"  # Pachet de test simplificat
+    print(f"Încercare de solicitare a informațiilor de la server...")
+    send_packet(sock, info_request_packet)
     
     # Așteptare și afișare răspuns de la server
     receive_response(sock)
     
-    # Menținerea conexiunii cu serverul
+    # Închiderea socket-ului
     try:
-        while True:
-            # Pachet "keep-alive" simplificat
-            keep_alive_packet = b"\xFF\xFF\xFF\xFFkeepalive\n"
-            send_packet(sock, keep_alive_packet)
-            
-            # Așteptare și afișare răspuns de la server
-            receive_response(sock)
-            
-            # Pauză pentru a simula activitatea jucătorului
-            time.sleep(5)
-    except KeyboardInterrupt:
-        print("Deconectare jucător fals.")
+        sock.close()
+        print("Socket UDP închis.")
     except Exception as e:
-        print(f"Eroare în timpul menținerii conexiunii: {e}")
-    finally:
-        try:
-            sock.close()
-            print("Socket UDP închis.")
-        except Exception as e:
-            print(f"Eroare la închiderea socketului: {e}")
+        print(f"Eroare la închiderea socketului: {e}")
 
 if __name__ == "__main__":
     create_fake_player()
