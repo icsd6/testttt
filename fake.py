@@ -1,7 +1,7 @@
 import socket
 
 # Detalii server
-SERVER_IP = 'furien.devilz.ro'  # Adresa IP a serverului tău
+SERVER_IP = 'bhop.laleagane.ro'  # Adresa IP a serverului tău
 SERVER_PORT = 27015            # Portul serverului tău
 
 def send_packet(sock, data):
