@@ -13,15 +13,12 @@ async def fetch(session, url):
 
 # Funcția principală care gestionează conexiunile
 async def main(url, num_connections):
-    # Crearea unui client HTTP asyncron
     async with aiohttp.ClientSession() as session:
         tasks = []
         for _ in range(num_connections):
-            # Adăugăm cererile la lista de sarcini
             task = asyncio.ensure_future(fetch(session, url))
             tasks.append(task)
 
-        # Așteptăm finalizarea tuturor sarcinilor
         responses = await asyncio.gather(*tasks)
         print(f"Completed {len(responses)} requests")
 
